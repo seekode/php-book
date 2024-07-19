@@ -1,0 +1,39 @@
+services:
+  apache-php:
+    container_name: php-con
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: seekode-php-apache
+    volumes:
+      - ./src:/var/www/html/
+    ports:
+      - 80:80
+    networks:
+      - app-network
+
+  mysql:
+    container_name: mysql-con
+    image: mysql
+    volumes:
+      - ./database:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: pw
+    networks:
+      - app-network
+
+  phpmyadmin:
+    container_name: phpmyadmin-con
+    image: phpmyadmin
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql-con
+    ports:
+      - '8080:80'
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
