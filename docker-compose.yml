@@ -19,6 +19,9 @@ services:
       - ./database:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: pw
+      MYSQL_DATABASE: database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
     networks:
       - app-network
 
@@ -29,6 +32,8 @@ services:
       - mysql
     environment:
       PMA_HOST: mysql-con
+      PMA_USER: user
+      PMA_PASSWORD: password
     ports:
       - '8080:80'
     networks:
